@@ -140,6 +140,7 @@
   ccs: [],
   keywords: (),
   info: [],
+  bibsources: "csm_thesis.bib",
   doc,
 ) = [
   #let author = if (type(author) == array) {
@@ -210,5 +211,5 @@
 
   #doc
 
-  #bibliography("csm_thesis.bib")
+  #bibliography(bibsources)
 ]
