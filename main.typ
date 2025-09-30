@@ -16,6 +16,9 @@
   ],
   keywords: ("algorithms", "data structures"),
   info: [Software study track],
+  // Note: you can force chapters to always start from the right side,
+  // you may uncomment the next line to do so:
+  //breakto: "odd",
 )
 
 // --- Main content ---

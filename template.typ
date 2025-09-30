@@ -46,6 +46,7 @@
     Email address: #link("mailto:info@cs.helsinki.fi")\
     URL: #link("http://www.cs.helsinki.fi/")
   ]
+
   #pagebreak()
 ]
 
@@ -127,6 +128,8 @@
       #info
     ]
   )]
+
+  #pagebreak()
 ]
 
 #let thesis(
@@ -141,6 +144,7 @@
   keywords: (),
   info: [],
   bibsources: "csm_thesis.bib",
+  breakto: none,
   doc,
 ) = [
   #let author = if (type(author) == array) {
@@ -159,6 +163,10 @@
     date: date,
   )
 
+  #set page(
+    paper: "a4",
+  )
+
   #set text(
     lang: lang,
     region: region,
@@ -172,44 +180,93 @@
 
   #set heading(numbering: "1.1 ")
 
-  #show heading.where(level: 1): it => {
-    // Style section headings with a larger font size and margin
-    set text(size: 24pt)
-    set block(below: 2em)
+  #let chapterheading(it) = [
+    #set text(size: 24pt)
+    #set block(below: 2em)
+    #it
+  ]
 
-    {
-      // Hack: insert a dummy header which decrements page counter on blank pages
-      set page(
-        header: [#counter(page).update(i => i - 1)],
-        numbering: none,
-        footer: none
-      )
-      // Always start section headings from a fresh, even-numbered page
-      pagebreak(to: "even", weak: true)
-    }
+  #show outline: it => [
+    // Style table of contents heading with a larger font size and margin
+    #show heading: chapterheading
+    #it
+  ]
 
-    it
-  }
+  #show outline.entry.where(level: 1): set block(above: 1.5em)
 
-  #set page(
-    paper: "a4",
-  )
+  // --- Set cover pages --- 
 
   #coverpage(title, author, date)
 
   #contactpage
 
   #abstractpage(title, author, supervisor, date, abstract, ccs, keywords, info)
+  #pagebreak()
 
   #outline()
+  #pagebreak()
+  #pagebreak()
 
-  // Restart page counter and start displaying page numbering
+  // --- Customize first-level (chapter) headings ---
+  #let chapter = state("chapter")
+  #show heading.where(level: 1): it => {
+    // Style chapter headings with a larger font size and margin
+    show heading: chapterheading
+
+    {
+      // Hack: insert a dummy header which decrements the page counter on blank
+      // pages, which are generated when breakto == "odd" or "even".
+      set page(
+        header: [#counter(page).update(i => i - 1)],
+        numbering: none,
+        footer: none
+      )
+      // Always start chapter headings from a fresh page
+      pagebreak(to: breakto, weak: true)
+    }
+
+    // Store heading body for headers
+    chapter.update(it.body)
+
+    it
+  }
+
+  // Restart page counter
   #counter(page).update(1)
+
+  // Start displaying page headers
   #set page(
-    numbering: "1",
+    header: [
+      // Define helper functions
+      #let pagenumbering() = [#numbering("1", counter(page).get().first())]
+      #let chapternumbering() = [
+        #show: upper
+        #show ". ": ".  "
+        #set text(style: "italic")
+        Chapter
+        #numbering("1.", counter(heading.where(level: 1)).get().first())
+        #chapter.get()
+      ]
+      #let nextheading() = query(heading.where(level: 1).after(here())).first()
+
+      // Do not show header if chapter heading is on current page
+      #context if (nextheading().location().page() != here().page()) {
+        // Headers have different layout depending on page side
+        if(calc.even(here().page())) {
+          place(left+bottom, pagenumbering())
+          place(right+bottom, chapternumbering())
+        } else {
+          place(right+bottom, pagenumbering())
+        }
+      }
+    ]
   )
 
+  // --- Set main pages --- 
+
   #doc
+
+  // --- Set bibliography pages --- 
 
   #bibliography(bibsources)
 ]
