@@ -15,13 +15,15 @@ jobs:
         with:
           fetch-depth: 0
       - uses: typst-community/setup-typst@v4
+      - name: Create output directory
+        run: mkdir pages
       - name: Compile example PDF
-        run: typst compile main.typ
+        run: typst compile main.typ pages/example.pdf
       - name: Upload as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v4
         with:
-          path: main.pdf
+          path: pages
   deploy_pages:
     name: Deploy to Pages
     needs:
