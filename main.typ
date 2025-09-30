@@ -6,6 +6,7 @@
 
 // Use the thesis template
 #show: thesis.with(
+  // Set the basic information fields:
   title: [Typesetting a Master's Thesis with Typst],
   author: "Firstname Lastname",
   supervisor: ("Prof. D.U. Mind", "Dr. O. Why"),
@@ -16,9 +17,22 @@
   ],
   keywords: ("algorithms", "data structures"),
   info: [Software study track],
-  // Note: you can force chapters to always start from the right side,
-  // you may uncomment the next line to do so:
+
+  // You can disable the detailed information page completely:
+  //infopage: false,
+
+  // You can override the study programme:
+  //programme: [Bachelor's Programme in Computer Science],
+
+  // You can override the thesis level:
+  //level: [Bachelor's thesis],
+  //level: [Seminar report],
+
+  // You can make chapters always start from the right side:
   //breakto: "odd",
+
+  // You can use the old LaTeX template's shorter page size (otherwise it's A4):
+  //oldpagesize: true,
 )
 
 // --- Main content ---

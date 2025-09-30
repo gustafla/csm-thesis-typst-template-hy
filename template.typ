@@ -1,4 +1,6 @@
 #let coverpage(
+  level,
+  programme,
   title,
   author,
   date,
@@ -10,11 +12,11 @@
   // Logo
   #block(below: 2em)[#image("hy-logo-ml.svg", width: 32%)]
 
-  // Classification
-  #par[Master's thesis]
+  // Level
+  #par[#level]
 
   // Programme
-  #par[Master's Programme in Computer Science]
+  #par[#programme]
 
   // Title
   #par(spacing: 4em, leading: 0.3em)[#text(23pt)[*#title*]]
@@ -51,9 +53,11 @@
 ]
 
 #let abstractpage(
+  programme,
   title,
   author,
   supervisor,
+  level,
   date,
   abstract,
   ccs,
@@ -79,7 +83,7 @@
     ],
     table.cell(colspan: 3)[
       #celldesc[Koulutusohjelma --- Utbildningsprogram --- Study programme]
-      Master's Programme in Computer Science
+      #programme
     ],
     table.cell(colspan: 6)[
       #celldesc[Tekijä --- Författare --- Author]
@@ -95,7 +99,7 @@
     ],
     table.cell(colspan: 2)[
       #celldesc[Työn laji --- Arbetets art --- Level]
-      Master's thesis
+      #level
     ],
     table.cell(colspan: 2)[
       #celldesc[Aika --- Datum --- Month and year]
@@ -133,9 +137,11 @@
 ]
 
 #let thesis(
+  programme: [Master's Programme in Computer Science],
   title: none,
   author: (),
   supervisor: (),
+  level: [Master's thesis],
   date: datetime.today(),
   lang: "en",
   region: "GB",
@@ -145,6 +151,8 @@
   info: [],
   bibsources: "csm_thesis.bib",
   breakto: none,
+  oldpagesize: false,
+  infopage: true,
   doc,
 ) = [
   #let author = if (type(author) == array) {
@@ -164,10 +172,15 @@
   )
 
   #set page(
-    // These were matched to the LaTeX template.
-    // I don't know why it's not a full-height A4.
     width: 210mm,
-    height: 272mm,
+    height: if (oldpagesize) {
+      // This was matched to the original LaTeX template.
+      // I don't know why it wasn't a full-height A4.
+      272mm
+    } else {
+      // Current/next LaTeX template uses a standard A4 page size:
+      297mm
+    },
   )
 
   #set text(
@@ -200,12 +213,31 @@
 
   // --- Set cover pages --- 
 
-  #coverpage(title, author, date)
+  #coverpage(
+    level,
+    programme,
+    title,
+    author,
+    date,
+  )
 
   #contactpage
 
-  #abstractpage(title, author, supervisor, date, abstract, ccs, keywords, info)
-  #pagebreak()
+  #if (infopage) {
+    abstractpage(
+      programme,
+      title,
+      author,
+      supervisor,
+      level,
+      date,
+      abstract,
+      ccs,
+      keywords,
+      info
+    )
+    pagebreak()
+  }
 
   #outline()
   #pagebreak()
@@ -256,7 +288,7 @@
       // Do not show header if chapter heading is on current page
       #context if (nextheading().location().page() != here().page()) {
         // Headers have different layout depending on page side
-        if(calc.even(here().page())) {
+        if (calc.even(here().page())) {
           place(left+bottom, pagenumbering())
           place(right+bottom, chapternumbering())
         } else {
