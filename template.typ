@@ -98,7 +98,7 @@
     ],
     table.cell(colspan: 2)[
       #celldesc[Aika --- Datum --- Month and year]
-      #context document.date.display("[month repr:long] [day], [year]")
+      #date.display("[month repr:long] [day], [year]")
     ],
     table.cell(colspan: 2)[
       #celldesc[Sivumäärä --- Sidoantal --- Number of pages]
