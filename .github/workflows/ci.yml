@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    name: Compile Example PDF
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: typst-community/setup-typst@v4
+      - name: Compile example PDF
+        run: typst compile main.typ
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: example
+          path: main.pdf
