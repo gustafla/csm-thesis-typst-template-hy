@@ -164,7 +164,10 @@
   )
 
   #set page(
-    paper: "a4",
+    // These were matched to the LaTeX template by trial and error.
+    // It's A4 paper but 1 inch shorter.
+    width: 210mm,
+    height: 297mm - 1in,
   )
 
   #set text(
