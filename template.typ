@@ -17,16 +17,16 @@
   #par[Master's Programme in Computer Science]
 
   // Title
-  #par(spacing: 68pt, leading: 0.3em)[#text(23pt)[*#title*]]
+  #par(spacing: 4em, leading: 0.3em)[#text(23pt)[*#title*]]
 
   // Name
-  #par(spacing: 32pt)[#author]
+  #par(spacing: 3em)[#author]
 
   // Date
   #date.display("[month repr:long] [day], [year]")
 
   // Faculty
-  #place(bottom + center, dy: -10pt)[#text(16pt)[#smallcaps[
+  #place(bottom + center, dy: -1em)[#text(16pt)[#smallcaps[
   Faculty of Science\
   University of Helsinki
   ]]]
