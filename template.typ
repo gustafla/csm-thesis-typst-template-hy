@@ -192,6 +192,7 @@
   #show outline: it => [
     // Style table of contents heading with a larger font size and margin
     #show heading: chapterheading
+    #v(4em)
     #it
   ]
 
