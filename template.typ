@@ -211,6 +211,8 @@
 
   #show outline.entry.where(level: 1): set block(above: 1.5em)
 
+  #show figure.caption: emph
+
   // --- Set cover pages --- 
 
   #coverpage(
