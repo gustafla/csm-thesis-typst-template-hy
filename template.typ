@@ -282,7 +282,7 @@
         #show ". ": ".  "
         #set text(style: "italic")
         Chapter
-        #numbering("1.", counter(heading.where(level: 1)).get().first())
+        #numbering("1.", counter(heading).get().first())
         #chapter.get()
       ]
       #let nextheading() = query(heading.where(level: 1).after(here())).first()
