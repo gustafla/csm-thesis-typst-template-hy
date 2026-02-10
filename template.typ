@@ -5,7 +5,7 @@
   author,
   date,
 ) = [
-  #set text(font: "New Computer Modern", size: 14pt)
+  #set text(size: 14pt)
   #set align(center)
   #set par(justify: false)
   
@@ -38,7 +38,7 @@
 
 #let contactpage = [
   #set par(spacing: 3em)
-  #set text(12pt)
+  #set text(size: 12pt)
   *Contact information*
 
   #block(inset: (x: 2em))[
@@ -64,15 +64,15 @@
   keywords,
   info,
 ) = [
-  #set text(14.3333pt)
+  #set text(size: 13pt)
   #smallcaps[helsingin yliopisto -- helsingfors universitet -- university of helsinki]
 
   #let celldesc(body) = {
-    text(8pt)[#body]
+    text(7.5pt)[#body]
     parbreak()
   }
   #set par(spacing: 1em)
-  #set text(10pt)
+  #set text(size: 10pt)
   #block(above: 0.5em)[#table(
     columns: 6 * (1fr, ),
     rows: 20 * (1fr, ),
@@ -186,6 +186,7 @@
   #set text(
     lang: lang,
     region: region,
+    font: "New Computer Modern",
     size: 12pt,
   )
 
