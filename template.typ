@@ -5,7 +5,7 @@
   author,
   date,
 ) = [
-  #set text(14pt)
+  #set text(font: "New Computer Modern", size: 14pt)
   #set align(center)
   #set par(justify: false)
   
