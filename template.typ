@@ -197,7 +197,7 @@
 
   #set heading(numbering: (..numbers) => {
     let level = numbers.pos().len()
-    if (level < 3) {numbering("1.1 ", ..numbers)} else {none}
+    if (level < 3) {numbering("1.1", ..numbers)} else {none}
   })
 
   #let chapterheading(it) = [
@@ -208,14 +208,13 @@
 
   #let sectionheading(it) = [
     #set text(size: 16pt)
-    #set block(below: 1.5em)
+    #set block(below: 1em)
     #it
   ]
 
   #let subsectionheading(it) = [
     #set text(size: 14pt)
-    #set block(below: 1em)
-    #it
+    #block(above: 1.5em, below: 1em)[#it.body]
   ]
 
 
