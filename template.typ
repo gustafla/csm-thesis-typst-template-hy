@@ -195,28 +195,11 @@
     justify: true,
   )
 
-  #set heading(numbering: (..numbers) => {
-    let level = numbers.pos().len()
-    if (level < 3) {numbering("1.1", ..numbers)} else {none}
-  })
-
   #let chapterheading(it) = [
     #set text(size: 24pt)
     #set block(below: 2em)
     #it
   ]
-
-  #let sectionheading(it) = [
-    #set text(size: 16pt)
-    #set block(below: 1em)
-    #it
-  ]
-
-  #let subsectionheading(it) = [
-    #set text(size: 14pt)
-    #block(above: 1.5em, below: 1em)[#it.body]
-  ]
-
 
   #show outline: it => [
     // Style table of contents heading with a larger font size and margin
@@ -262,6 +245,7 @@
   #pagebreak()
 
   // --- Customize headings ---
+
   #let chapter = state("chapter")
   #show heading.where(level: 1): it => {
     // Style chapter headings with a larger font size and margin
@@ -285,8 +269,20 @@
     it
   }
 
-  #show heading.where(level: 2): sectionheading
-  #show heading.where(level: 3): subsectionheading
+  #show heading.where(level: 1): set heading(numbering: "1")
+
+  #show heading.where(level: 2): set heading(numbering: "1.1")
+
+  #show heading.where(level: 2): (it) => [
+    #set text(size: 16pt)
+    #set block(below: 1em)
+    #it
+  ]
+
+  #show heading.where(level: 3): (it) => [
+    #set text(size: 14pt)
+    #block(above: 1.5em, below: 1em)[#it.body]
+  ]
 
   // Restart page counter
   #counter(page).update(1)
