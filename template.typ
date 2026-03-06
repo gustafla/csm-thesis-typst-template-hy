@@ -19,7 +19,7 @@
   #par[#programme]
 
   // Title
-  #par(spacing: 4em, leading: 0.3em)[#text(23pt)[*#title*]]
+  #par(spacing: 4em)[#text(23pt)[*#title*]]
 
   // Name
   #par(spacing: 3em)[#author]
