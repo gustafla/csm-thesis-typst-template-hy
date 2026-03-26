@@ -315,6 +315,13 @@
     ]
   )
 
+  // Customize tables
+
+  #show table.cell: set par(justify: false)
+  #set table(
+    stroke: (x, y) => if y == 0 {(bottom: 0.7pt + black)} else {(bottom: 0.3pt + black)},
+  )
+
   // --- Set main pages --- 
 
   #doc
