@@ -300,16 +300,17 @@
         #numbering("1.", counter(heading).get().first())
         #chapter.get()
       ]
-      #let nextheading() = query(heading.where(level: 1).after(here())).first()
-
-      // Do not show header if chapter heading is on current page
-      #context if (nextheading().location().page() != here().page()) {
-        // Headers have different layout depending on page side
-        if (calc.even(here().page())) {
-          place(left+bottom, pagenumbering())
-          place(right+bottom, chapternumbering())
-        } else {
-          place(right+bottom, pagenumbering())
+      #context{
+        let nextheading = query(heading.where(level: 1).after(here()))
+        // Do not show header if chapter heading is on current page
+        if (nextheading.len() != 0 and nextheading.first().location().page() != here().page()) {
+          // Headers have different layout depending on page side
+          if (calc.even(here().page())) {
+            place(left+bottom, pagenumbering())
+            place(right+bottom, chapternumbering())
+          } else {
+            place(right+bottom, pagenumbering())
+          }
         }
       }
     ]
