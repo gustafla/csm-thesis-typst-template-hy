@@ -8,7 +8,7 @@
   #set text(size: 14pt)
   #set align(center)
   #set par(justify: false)
-  
+
   // Logo
   #block(below: 2em)[#image("hy-logo-ml.svg", width: 32%)]
 
@@ -29,8 +29,8 @@
 
   // Faculty
   #place(bottom + center, dy: -1em)[#text(16pt)[#smallcaps[
-  Faculty of Science\
-  University of Helsinki
+    Faculty of Science\
+    University of Helsinki
   ]]]
 
   #pagebreak()
@@ -44,7 +44,7 @@
   #block(inset: (x: 2em))[
     P. O. Box 68 (Pietari Kalmin katu 5)\
     00014 University of Helsinki, Finland
-  
+
     Email address: #link("mailto:info@cs.helsinki.fi")\
     URL: #link("http://www.cs.helsinki.fi/")
   ]
@@ -74,8 +74,8 @@
   #set par(spacing: 1em)
   #set text(size: 10pt)
   #block(above: 0.5em)[#table(
-    columns: 6 * (1fr, ),
-    rows: 20 * (1fr, ),
+    columns: 6 * (1fr,),
+    rows: 20 * (1fr,),
     stroke: 0.5pt,
     table.cell(colspan: 3)[
       #celldesc[Tiedekunta --- Fakultet --- Faculty]
@@ -130,7 +130,7 @@
     table.cell(colspan: 6)[
       #celldesc[Muita tietoja --- Övriga uppgifter --- Additional information]
       #info
-    ]
+    ],
   )]
 
   #pagebreak()
@@ -157,13 +157,13 @@
 ) = [
   #let author = if (type(author) == array) {
     author.join(", ", last: " and ")
-  } else {author}
+  } else { author }
   #let supervisor = if (type(supervisor) == array) {
     supervisor.join(", ")
-  } else {supervisor}
+  } else { supervisor }
   #let keywords = if (type(keywords) == array) {
     keywords.join(", ")
-  } else {keywords}
+  } else { keywords }
 
   #set document(
     title: title,
@@ -212,7 +212,7 @@
 
   #show figure.caption: emph
 
-  // --- Set cover pages --- 
+  // --- Set cover pages ---
 
   #coverpage(
     level,
@@ -235,13 +235,13 @@
       abstract,
       ccs,
       keywords,
-      info
+      info,
     )
     pagebreak()
   }
 
   #outline(depth: 3)
-  #pagebreak()
+  // #pagebreak()
   #pagebreak()
 
   // --- Customize headings ---
@@ -257,7 +257,7 @@
       set page(
         header: [#counter(page).update(i => i - 1)],
         numbering: none,
-        footer: none
+        footer: none,
       )
       // Always start chapter headings from a fresh page
       pagebreak(to: breakto, weak: true)
@@ -273,13 +273,13 @@
 
   #show heading.where(level: 2): set heading(numbering: "1.1")
 
-  #show heading.where(level: 2): (it) => [
+  #show heading.where(level: 2): it => [
     #set text(size: 16pt)
     #set block(below: 1em)
     #it
   ]
 
-  #show heading.where(level: 3): (it) => [
+  #show heading.where(level: 3): it => [
     #set text(size: 14pt)
     #block(above: 1.5em, below: 1em)[#it.body]
   ]
@@ -300,34 +300,34 @@
         #numbering("1.", counter(heading).get().first())
         #chapter.get()
       ]
-      #context{
+      #context {
         let nextheading = query(heading.where(level: 1).after(here()))
         // Do not show header if chapter heading is on current page
         if (nextheading.len() != 0 and nextheading.first().location().page() != here().page()) {
           // Headers have different layout depending on page side
           if (calc.even(here().page())) {
-            place(left+bottom, pagenumbering())
-            place(right+bottom, chapternumbering())
+            place(left + bottom, pagenumbering())
+            place(right + bottom, chapternumbering())
           } else {
-            place(right+bottom, pagenumbering())
+            place(right + bottom, pagenumbering())
           }
         }
       }
-    ]
+    ],
   )
 
   // Customize tables
 
   #show table.cell: set par(justify: false)
   #set table(
-    stroke: (x, y) => if y == 0 {(bottom: 0.7pt + black)} else {(bottom: 0.3pt + black)},
+    stroke: (x, y) => if y == 0 { (bottom: 0.7pt + black) } else { (bottom: 0.3pt + black) },
   )
 
-  // --- Set main pages --- 
+  // --- Set main pages ---
 
   #doc
 
-  // --- Set bibliography pages --- 
+  // --- Set bibliography pages ---
 
   #bibliography(bibsources)
 ]
