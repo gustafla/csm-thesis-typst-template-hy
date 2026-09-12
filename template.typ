@@ -267,6 +267,7 @@
   // --- Customize headings ---
 
   #let chapter = state("chapter")
+  #let section = state("section")
   #show heading.where(level: 1): it => {
     // Style chapter headings with a larger font size and margin
     show heading: chapterheading
@@ -283,13 +284,18 @@
       pagebreak(to: breakto, weak: true)
     }
 
-    // Store heading body for headers
+    // Store chapter heading body for headers and unset section
     chapter.update(it.body)
+    section.update(none)
 
     it
   }
 
-  #show heading.where(level: 1): set heading(numbering: "1")
+  #show heading.where(level: 2): it => {
+    // Store section heading body for headers
+    section.update(it.body)
+    it
+  }
 
   #show heading.where(level: 1): set heading(numbering: "1 ", supplement: [Chapter])
 
@@ -319,8 +325,15 @@
         #show ". ": ".  "
         #set text(style: "italic")
         Chapter
-        #numbering("1.", counter(heading).get().first())
+        #numbering("1. ", counter(heading).get().first())
         #chapter.get()
+      ]
+      #let sectionnumbering() = if (section.get() != none) [
+        #show: upper
+        #show ". ": ".  "
+        #set text(style: "italic")
+        #numbering("1.1. ", ..counter(heading).get())
+        #section.get()
       ]
       #context {
         let nextheading = query(heading.where(level: 1).after(here()))
@@ -331,6 +344,7 @@
             place(left + bottom, pagenumbering())
             place(right + bottom, chapternumbering())
           } else {
+            place(left + bottom, sectionnumbering())
             place(right + bottom, pagenumbering())
           }
         }
