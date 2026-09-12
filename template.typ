@@ -1,3 +1,7 @@
+#let end-label(s) = label("csm-thesis-end-" + s)
+#let end-label-appendix(i) = end-label("appendix-" + str(i))
+#let end-anchor(l) = [#block(fill: none, stroke: none)#l]
+
 #let coverpage(
   level,
   programme,
@@ -63,6 +67,7 @@
   ccs,
   keywords,
   info,
+  appendices,
 ) = [
   #set text(size: 13pt)
   #smallcaps[helsingin yliopisto -- helsingfors universitet -- university of helsinki]
@@ -107,7 +112,12 @@
     ],
     table.cell(colspan: 2)[
       #celldesc[Sivumäärä --- Sidoantal --- Number of pages]
-      #context counter(page).final().first() pages
+      #context counter(page).at(locate(end-label("bibliography"))).first() pages#if appendices.len() > 0 [,]
+      #if appendices.len() > 0 {
+        let appendix-pages(i) = counter(page).at(locate(end-label-appendix(i))).first()
+        let ap() = range(0, appendices.len()).map(appendix-pages).sum()
+        [#context ap() appendix #context if ap() < 2 [page] else [pages]]
+      }
     ],
     table.cell(colspan: 6, rowspan: 12)[
       #celldesc[Tiivistelmä --- Referat --- Abstract]
@@ -149,6 +159,7 @@
   ccs: [],
   keywords: (),
   info: [],
+  appendices: (),
   bibsources: "csm_thesis.bib",
   breakto: none,
   oldpagesize: false,
@@ -201,6 +212,9 @@
     #it
   ]
 
+  #let appendixnumberingshort = "A "
+  #let appendixnumbering(num) = "Appendix " + numbering(appendixnumberingshort, num)
+
   #show outline: it => [
     // Style table of contents heading with a larger font size and margin
     #show heading: chapterheading
@@ -208,7 +222,12 @@
     #it
   ]
 
-  #show outline.entry.where(level: 1): set block(above: 1.5em)
+  #show outline.entry.where(level: 1): it => link(it.element.location())[
+    #block(above: 0.5em)
+    #if it.element.numbering == appendixnumbering [
+      *#numbering(appendixnumberingshort, counter(heading).at(it.element.location()).first()) #it.body()*
+    ] else [*#it.prefix() #it.body()* #h(1fr) #it.page()]
+  ]
 
   #show figure.caption: emph
 
@@ -236,6 +255,7 @@
       ccs,
       keywords,
       info,
+      appendices,
     )
     pagebreak()
   }
@@ -271,7 +291,9 @@
 
   #show heading.where(level: 1): set heading(numbering: "1")
 
-  #show heading.where(level: 2): set heading(numbering: "1.1")
+  #show heading.where(level: 1): set heading(numbering: "1 ", supplement: [Chapter])
+
+  #show heading.where(level: 2): set heading(numbering: "1.1 ", supplement: [Section])
 
   #show heading.where(level: 2): it => [
     #set text(size: 16pt)
@@ -329,5 +351,35 @@
 
   // --- Set bibliography pages ---
 
+  #show heading: set heading(numbering: none)
+
   #bibliography(bibsources)
+
+  #end-anchor(end-label("bibliography"))
+
+  // --- Set appendix pages ---
+
+  #if (appendices.len() > 0) {
+    show heading: set heading(numbering: "A.1")
+    show heading.where(level: 1): it => [
+      #show text: set text(size: 14pt)
+      #it
+    ]
+    show heading.where(level: 1): set heading(
+      numbering: appendixnumbering,
+      supplement: [Appendix],
+    )
+
+    set page(header: none, numbering: "i")
+    counter(heading).update(0)
+
+    for (i, appendix) in appendices.enumerate() {
+      counter(page).update(1)
+      appendix
+      end-anchor(end-label-appendix(i))
+      if i < appendices.len() - 1 {
+        pagebreak()
+      }
+    }
+  }
 ]

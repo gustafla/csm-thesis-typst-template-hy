@@ -4,6 +4,25 @@
   #lorem(256)
 ]
 
+#let appendices = (
+  [
+    = Source Code
+
+    == template.typ
+
+    #raw(read("template.typ"))
+  ],
+  [
+    = Look at This Cat
+
+    ```
+        |\__/,|   (`\
+      _.|o o  |_   ) )
+    -(((---(((--------
+    ```
+  ],
+)
+
 // Use the thesis template
 #show: thesis.with(
   // Set the basic information fields:
@@ -17,6 +36,7 @@
   ],
   keywords: ("algorithms", "data structures"),
   info: [Software study track],
+  appendices: appendices,
 
   // You can disable the detailed information page completely:
   //infopage: false,
@@ -39,9 +59,21 @@
 
 = Introduction
 
+#lorem(1395)
+
+== History
+
 #lorem(1024)
 
 = Methods
+
+#lorem(32).
+
+== Measurement
+
+#lorem(32).
+
+== Error
 
 #lorem(1024)
 
