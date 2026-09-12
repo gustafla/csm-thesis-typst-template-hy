@@ -297,9 +297,13 @@
     it
   }
 
-  #show heading.where(level: 1): set heading(numbering: "1 ", supplement: [Chapter])
+  #set heading(numbering: "1.1 ")
 
-  #show heading.where(level: 2): set heading(numbering: "1.1 ", supplement: [Section])
+  #show heading.where(level: 1): set heading(supplement: [Chapter])
+
+  #show heading.where(level: 2): set heading(supplement: [Section])
+
+  #show heading.where(level: 3): set heading(supplement: [Subsection])
 
   #show heading.where(level: 2): it => [
     #set text(size: 16pt)
@@ -309,7 +313,11 @@
 
   #show heading.where(level: 3): it => [
     #set text(size: 14pt)
-    #block(above: 1.5em, below: 1em)[#it.body]
+    #it
+  ]
+
+  #show heading.where(level: 4): it => [
+    #block(above: 1em, below: 1em)[#it.body]
   ]
 
   // Restart page counter
@@ -332,7 +340,7 @@
         #show: upper
         #show ". ": ".  "
         #set text(style: "italic")
-        #numbering("1.1. ", ..counter(heading).get())
+        #numbering("1.1. ", ..counter(heading).get().chunks(2).first())
         #section.get()
       ]
       #context {
@@ -391,9 +399,7 @@
       counter(page).update(1)
       appendix
       end-anchor(end-label-appendix(i))
-      if i < appendices.len() - 1 {
-        pagebreak()
-      }
+      pagebreak(weak: true)
     }
   }
 ]

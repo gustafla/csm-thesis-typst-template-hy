@@ -65,7 +65,7 @@
 
 #lorem(1024)
 
-= Methods
+= Methods<methods>
 
 #lorem(32).
 
@@ -73,11 +73,27 @@
 
 #lorem(32).
 
-== Error
+== Error<error>
+
+#lorem(1024)
+
+=== Statistical Variance<variance>
+
+#lorem(1024)
+
+==== Normal Distribution<normal>
 
 #lorem(1024)
 
 = Results
+
+Test: @methods
+
+Test: @error
+
+Test: @variance
+
+Test: @normal
 
 #lorem(1024)
 
