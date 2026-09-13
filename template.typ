@@ -382,7 +382,7 @@
   // --- Set appendix pages ---
 
   #if (appendices.len() > 0) {
-    show heading: set heading(numbering: "A.1")
+    show heading: set heading(numbering: "A.1 ")
     show heading.where(level: 1): it => [
       #show text: set text(size: 14pt)
       #it
