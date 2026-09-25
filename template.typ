@@ -389,7 +389,7 @@
     ]
     show heading.where(level: 1): set heading(
       numbering: appendixnumbering,
-      supplement: [Appendix],
+      supplement: none,
     )
 
     set page(header: none, numbering: "i")
