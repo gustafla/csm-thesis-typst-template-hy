@@ -212,7 +212,7 @@
     #it
   ]
 
-  #let appendixnumberingshort = "A "
+  #let appendixnumberingshort = "A"
   #let appendixnumbering(num) = "Appendix " + numbering(appendixnumberingshort, num)
 
   #show outline: it => [
