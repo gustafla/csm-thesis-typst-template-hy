@@ -288,6 +288,9 @@
     chapter.update(it.body)
     section.update(none)
 
+    // Reset footnote counter for Chapter
+    counter(footnote).update(0)
+
     it
   }
 
@@ -296,6 +299,8 @@
     section.update(it.body)
     it
   }
+
+  #set footnote(numbering: "i")
 
   #set heading(numbering: "1.1 ")
 
