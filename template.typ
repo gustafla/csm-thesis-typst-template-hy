@@ -288,7 +288,7 @@
     chapter.update(it.body)
     section.update(none)
 
-    // Reset footnote counter for Chapter. Chapters always start on a new page.
+    // Reset footnote counter for Chapter
     counter(footnote).update(0)
 
     it
@@ -297,19 +297,6 @@
   #show heading.where(level: 2): it => {
     // Store section heading body for headers
     section.update(it.body)
-
-    // Reset footnote counter for Section, unless another heading reset it first on the same page
-    let prevchapterheading = query(heading.where(level: 1).before(here()))
-    let prevsectionheading = query(heading.where(level: 2).before(here()))
-    if (
-      prevchapterheading.len() > 0
-        and prevchapterheading.last().location().page() != here().page()
-        and prevsectionheading.len() > 1
-        and prevsectionheading.at(prevsectionheading.len() - 2).location().page() != here().page()
-    ) {
-      counter(footnote).update(0)
-    }
-
     it
   }
 
